@@ -30,8 +30,7 @@ export function NavBar() {
         </div>
 
         <div className="flex items-center gap-4">
-          <Button variant="ghost">Log in</Button>
-          <Button>Sign up</Button>
+
         </div>
       </div>
     </motion.nav>

@@ -1,10 +1,27 @@
 'use client'
 
 import Link from "next/link"
+import { useState } from "react"
+import { useEffect } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/src/components/ui/button"
+import { getWalletInfo } from "thirdweb/wallets";
+import Wallet from "./ThirdwebWallet"
+
 
 export function NavBar() {
+
+  const [wallets, setWallets] = useState(null);
+  // const router = useRouter(); // Initialize the useRouter hook
+
+  useEffect(() => {
+    const fetchWalletInfo = async () => {
+      const walletData = await getWalletInfo("io.metamask");
+      setWallets(walletData.image_id);
+    };
+
+    fetchWalletInfo();
+  }, []);
   return (
     <motion.nav 
       className="w-full py-4 px-6"
@@ -30,8 +47,7 @@ export function NavBar() {
         </div>
 
         <div className="flex items-center gap-4">
-          <Button variant="ghost" className="hover:text-purple-600">Log in</Button>
-          <Button className="bg-purple-600 hover:bg-purple-700">Join the Guild</Button>
+          <Wallet/>
         </div>
       </div>
     </motion.nav>

@@ -30,8 +30,7 @@ export function NavBar() {
         </div>
 
         <div className="flex items-center gap-4">
-          <Button variant="ghost" className="hover:text-orange-600">Log in</Button>
-          <Button className="bg-orange-600 hover:bg-orange-700">Join the Guild</Button>
+
         </div>
       </div>
     </motion.nav>

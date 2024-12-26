@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ThirdwebClientProvider } from "../components/Thirdwebclientprovider";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -16,7 +17,9 @@ export default function RootLayout({
       <body
         // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <ThirdwebClientProvider>
         {children}
+        </ThirdwebClientProvider>
       </body>
     </html>
   );
