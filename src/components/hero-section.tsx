@@ -7,7 +7,7 @@ export function HeroSection() {
         Type faster
       </h1>
       <p className="text-xl text-gray-600 mb-12">
-        Learn to type faster with Ratatype typing tutor. Take our typing lessons for free.
+        Learn to type faster with EduType typing tutor. Take our typing lessons for free.
       </p>
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
         <Button

@@ -1,6 +1,6 @@
 import { NavBar } from "@/src/components/nav-bar"
-import { TypingTutor } from "../../components/typing-tutor/typing-tutor"
 import { DecorativeWave } from "@/src/components/decorative-wave"
+import { TypingTutor } from "@/src/components/typing-tutor/typing-tutor"
 
 export default function TypingTutorPage() {
   return (
