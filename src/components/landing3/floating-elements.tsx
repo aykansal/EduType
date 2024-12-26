@@ -1,33 +1,28 @@
-"use client";
+'use client'
 
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion } from "framer-motion"
+import { useEffect, useState } from "react"
 
 export function FloatingElements() {
-  const [isClient, setIsClient] = useState(false);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
-    setIsClient(true);
+    // Set dimensions after component mounts
     setDimensions({
       width: window.innerWidth,
-      height: window.innerHeight,
+      height: window.innerHeight
     });
 
     const handleResize = () => {
       setDimensions({
         width: window.innerWidth,
-        height: window.innerHeight,
+        height: window.innerHeight
       });
     };
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  if (!isClient) {
-    return null;
-  }
 
   const elements = Array.from({ length: 20 }, (_, i) => ({
     id: i,
@@ -35,8 +30,8 @@ export function FloatingElements() {
     top: `${Math.random() * 100}%`,
     delay: Math.random() * 2,
     duration: 3 + Math.random() * 2,
-    initialX: Math.random() * dimensions.width,
-    initialY: Math.random() * dimensions.height,
+    initialX: dimensions.width ? Math.random() * dimensions.width : 0,
+    initialY: dimensions.height ? Math.random() * dimensions.height : 0,
   }));
 
   return (
@@ -45,11 +40,9 @@ export function FloatingElements() {
         <motion.div
           key={element.id}
           className={`absolute w-4 h-4 rounded-full ${
-            element.id % 3 === 0
-              ? "bg-blue-400"
-              : element.id % 3 === 1
-              ? "bg-yellow-400"
-              : "bg-cyan-400"
+            element.id % 3 === 0 ? 'bg-blue-400' : 
+            element.id % 3 === 1 ? 'bg-yellow-400' : 
+            'bg-cyan-400'
           }`}
           initial={{
             x: element.initialX,

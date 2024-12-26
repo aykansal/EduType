@@ -3,8 +3,38 @@
 import { motion } from "framer-motion"
 import { Button } from "@/src/components/ui/button"
 import { Sparkles } from 'lucide-react'
+import { useEffect, useState } from "react"
 
 export function CtaSection() {
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+    setDimensions({
+      width: window.innerWidth,
+      height: window.innerHeight
+    })
+
+    const handleResize = () => {
+      setDimensions({
+        width: window.innerWidth,
+        height: window.innerHeight
+      })
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  const particles = Array.from({ length: 20 }, (_, i) => ({
+    id: i,
+    initialX: isClient ? Math.random() * dimensions.width : 0,
+    initialY: isClient ? Math.random() * dimensions.height : 0,
+    duration: 2 + Math.random() * 2,
+    delay: Math.random() * 2
+  }))
+
   return (
     <section className="py-20 px-6 bg-gradient-to-r from-orange-500 to-pink-500 relative overflow-hidden">
       <motion.div
@@ -35,26 +65,25 @@ export function CtaSection() {
       </motion.div>
 
       {/* Animated background elements */}
-      {[...Array(20)].map((_, i) => (
+      {isClient && particles.map((particle) => (
         <motion.div
-          key={i}
+          key={particle.id}
           className="absolute w-4 h-4 bg-white rounded-full opacity-50"
           initial={{ 
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
+            x: particle.initialX,
+            y: particle.initialY,
           }}
           animate={{ 
             y: [0, -20, 0],
             opacity: [0.5, 1, 0.5],
           }}
           transition={{ 
-            duration: 2 + Math.random() * 2,
+            duration: particle.duration,
             repeat: Infinity,
-            delay: Math.random() * 2,
+            delay: particle.delay,
           }}
         />
       ))}
     </section>
   )
 }
-

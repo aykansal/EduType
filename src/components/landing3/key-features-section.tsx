@@ -48,7 +48,7 @@ export function KeyFeaturesSection() {
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
           style={{ scale }}
         >
-          {features.map((feature, index) => (
+          {features.map((feature) => (
             <Card key={feature.title} className="overflow-hidden group">
               <CardContent className="p-6">
                 <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>

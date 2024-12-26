@@ -1,42 +1,36 @@
-"use client";
+'use client'
 
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion } from "framer-motion"
+import { useEffect, useState } from "react"
 
-export function FloatingElements() {
-  const [isClient, setIsClient] = useState(false);
+export function SakuraElements() {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
-    setIsClient(true);
     setDimensions({
       width: window.innerWidth,
-      height: window.innerHeight,
+      height: window.innerHeight
     });
 
     const handleResize = () => {
       setDimensions({
         width: window.innerWidth,
-        height: window.innerHeight,
+        height: window.innerHeight
       });
     };
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  if (!isClient) {
-    return null;
-  }
 
   const elements = Array.from({ length: 20 }, (_, i) => ({
     id: i,
     left: `${Math.random() * 100}%`,
     top: `${Math.random() * 100}%`,
     delay: Math.random() * 2,
-    duration: 3 + Math.random() * 2,
-    initialX: Math.random() * dimensions.width,
-    initialY: Math.random() * dimensions.height,
+    duration: 4 + Math.random() * 2,
+    initialX: dimensions.width ? Math.random() * dimensions.width : 0,
+    initialY: dimensions.height ? Math.random() * dimensions.height : 0,
   }));
 
   return (
@@ -44,21 +38,23 @@ export function FloatingElements() {
       {elements.map((element) => (
         <motion.div
           key={element.id}
-          className={`absolute w-4 h-4 rounded-full ${
-            element.id % 3 === 0
-              ? "bg-blue-400"
-              : element.id % 3 === 1
-              ? "bg-yellow-400"
-              : "bg-cyan-400"
-          }`}
+          className={`absolute w-3 h-3 ${
+            element.id % 3 === 0 ? 'bg-pink-200' : 
+            element.id % 3 === 1 ? 'bg-purple-200' : 
+            'bg-fuchsia-200'
+          } rounded-full transform rotate-45`}
           initial={{
             x: element.initialX,
             y: element.initialY,
-            opacity: 0.2,
+            opacity: 0.3,
+            scale: 0.5,
           }}
           animate={{
-            y: [0, -20, 0],
-            opacity: [0.2, 0.5, 0.2],
+            y: [0, -30, 0],
+            x: [0, 30, 0],
+            rotate: [45, 90, 45],
+            opacity: [0.3, 0.6, 0.3],
+            scale: [0.5, 1, 0.5],
           }}
           transition={{
             duration: element.duration,
