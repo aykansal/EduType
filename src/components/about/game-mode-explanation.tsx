@@ -49,7 +49,7 @@ export function GameModeExplanation() {
 
         <div>
           <h2 className="text-3xl font-bold text-gray-900 mb-8">
-            How game mode works on Ratatype
+            How game mode works on EduType
           </h2>
           <div className="space-y-6">
             <p className="text-lg text-gray-600">
@@ -88,7 +88,7 @@ export function GameModeExplanation() {
               And the more lessons you take, the more coins you get for rewards and for the end of the lesson ;)
             </p>
             <p className="text-lg text-gray-600">
-              Of course, this is not real money, but Captain Ratatype took care of how it can be spent: you can replace the standard Paco hero with Cato, Froga, Dragy, or Alba! Just buy them :)
+              Of course, this is not real money, but Captain EduType took care of how it can be spent: you can replace the standard Paco hero with Cato, Froga, Dragy, or Alba! Just buy them :)
             </p>
           </div>
         </div>

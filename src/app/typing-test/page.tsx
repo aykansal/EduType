@@ -1,7 +1,7 @@
-import { TypingTest } from "./components/typing-test"
-import { CertificateShowcase } from "./components/certificate-showcase"
 import { NavBar } from "@/src/components/nav-bar"
 import { DecorativeWave } from "@/src/components/decorative-wave"
+import { TypingTest } from "@/src/components/typing-test/typing-test"
+import { CertificateShowcase } from "@/src/components/typing-test/certificate-showcase"
 
 export default function TypingTestPage() {
   return (

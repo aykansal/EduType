@@ -3,9 +3,9 @@
 import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Progress } from "@/src/components/ui/progress"
-import { useTypingTest } from '../hooks/use-typing-test'
+import { useTypingTest } from '@/src/hooks/use-typing-test'
 
-const SAMPLE_TEXT = "The Sahara Desert is the largest hot desert in the world, covering an area of 3.6 million square miles. Despite its harsh environment, the Sahara is home to a"
+// const SAMPLE_TEXT = "The Sahara Desert is the largest hot desert in the world, covering an area of 3.6 million square miles. Despite its harsh environment, the Sahara is home to a"
 
 interface TestInterfaceProps {
   onComplete: () => void

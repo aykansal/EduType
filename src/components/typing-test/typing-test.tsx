@@ -1,12 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Button } from "@/src/components/ui/button"
-import { TestInterface } from './test-interface'
-import { ResultsModal } from './results-modal'
-import { useTypingTest } from '../hooks/use-typing-test'
 import Image from 'next/image'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ResultsModal } from './results-modal'
+import { TestInterface } from './test-interface'
+import { Button } from "@/src/components/ui/button"
+import { useTypingTest } from '@/src/hooks/use-typing-test'
 
 export function TypingTest() {
   const [showResults, setShowResults] = useState(false)

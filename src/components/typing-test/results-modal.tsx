@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import { Share2, Award, RotateCcw } from 'lucide-react'
 import { Button } from "@/src/components/ui/button"
 import {

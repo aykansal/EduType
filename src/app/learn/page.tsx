@@ -1,6 +1,6 @@
-import { LessonCategories } from "./components/lesson-categories"
-import { LearningPath } from "./components/learning-path"
-import { CurrentProgress } from "./components/current-progress"
+import { LessonCategories } from "@/src/components/learn/lesson-categories"
+import { LearningPath } from "@/src/components/learn/learning-path"
+import { CurrentProgress } from "@/src/components/learn/current-progress"
 import { NavBar } from "@/src/components/nav-bar"
 import { DecorativeWave } from "@/src/components/decorative-wave"
 

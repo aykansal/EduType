@@ -1,17 +1,18 @@
 import { NavBar } from "@/src/components/nav-bar"
+import { GameHero } from "@/src/components/about/game-hero"
+import { GameModeExplanation } from "@/src/components/about/game-mode-explanation"
 import { DecorativeWave } from "@/src/components/decorative-wave"
-import { HeroSection } from "@/src/components/hero-section"
-import { CertificateSection } from "@/src/components/certification-section"
 
-export default function Home() {
+export default function GameMode() {
   return (
     <div className="min-h-screen bg-white">
       <NavBar />
       <DecorativeWave />
       <main>
-        <HeroSection />
-        <CertificateSection />
+        <GameHero />
+        <GameModeExplanation />
       </main>
     </div>
   )
 }
+

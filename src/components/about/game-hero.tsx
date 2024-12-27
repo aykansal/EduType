@@ -12,7 +12,7 @@ export function GameHero() {
             Is it possible? How to play and learn touch typing at the same time
           </h1>
           <p className="text-lg md:text-xl text-gray-800 mb-8">
-            Games are loved by adults and children. That's why Captain Ratatype has come up with a way to make typing lessons even more interesting and effective: just turn on the game mode!
+            Games are loved by adults and children. Thats why Captain EduType has come up with a way to make typing lessons even more interesting and effective: just turn on the game mode!
           </p>
           <Button 
             size="lg"
