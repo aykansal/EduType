@@ -1,4 +1,4 @@
-
+// @ts-expect-error ignore
 import { NextRequest, NextResponse } from 'next/server';
 import { PDFDocument } from 'pdf-lib';
 import fs from 'fs/promises';

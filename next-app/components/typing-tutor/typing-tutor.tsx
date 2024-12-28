@@ -1,7 +1,7 @@
 "use client";
 
 import { Keyboard } from "./keyboard";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import GameOverDialog from "../GameOverDialog";
 import { useTyping } from "@/hooks/use-typing";
 import { Button } from "@/components/ui/button";
@@ -31,20 +31,7 @@ export function TypingTutor() {
     }
   }, [isStarted, handleKeyPress]);
 
-  useEffect(() => {
-    if (typedText.length === text.length && typedText.length > 0) {
-      setIsGameOver(true);
-      setIsStarted(false);
-      handleGenerateCertificate();
-    }
-  }, [typedText, text]);
-
-  const handleStart = () => {
-    setIsStarted(true);
-    setIsGameOver(false);
-    resetTyping();
-  };
-  const handleGenerateCertificate = async () => {
+  const handleGenerateCertificate = useCallback(async () => {
     try {
       const response = await axios.get(`/api/generate-certificate`, {
         params: {
@@ -59,6 +46,20 @@ export function TypingTutor() {
       console.error("Error generating certificate:", error);
       return "";
     }
+  }, [accuracy, wpm]);
+
+  useEffect(() => {
+    if (typedText.length === text.length && typedText.length > 0) {
+      setIsGameOver(true);
+      setIsStarted(false);
+      handleGenerateCertificate();
+    }
+  }, [typedText, text, handleGenerateCertificate]);
+
+  const handleStart = () => {
+    setIsStarted(true);
+    setIsGameOver(false);
+    resetTyping();
   };
 
   return (
