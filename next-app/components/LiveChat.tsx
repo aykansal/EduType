@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 
 interface ChatMessage {
   userId: string;
@@ -15,27 +15,29 @@ interface LiveChatProps {
 
 const LiveChat: React.FC<LiveChatProps> = ({ streamId, userId, username }) => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [newMessage, setNewMessage] = useState('');
+  const [newMessage, setNewMessage] = useState("");
   const wsRef = useRef<WebSocket | null>(null);
 
   useEffect(() => {
-    const ws = new WebSocket('ws://localhost:3001');
+    const ws = new WebSocket(`${process.env.NEXT_PUBLIC_WS_SERVER}`);
     wsRef.current = ws;
 
     ws.onopen = () => {
-      ws.send(JSON.stringify({
-        type: 'join_stream',
-        streamId,
-        userId,
-        username
-      }));
+      ws.send(
+        JSON.stringify({
+          type: "join_stream",
+          streamId,
+          userId,
+          username,
+        })
+      );
     };
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      if (data.type === 'chat_message') {
-        setMessages(prev => [...prev, data]);
-      } else if (data.type === 'message_history') {
+      if (data.type === "chat_message") {
+        setMessages((prev) => [...prev, data]);
+      } else if (data.type === "message_history") {
         setMessages(data.messages);
       }
     };
@@ -46,15 +48,17 @@ const LiveChat: React.FC<LiveChatProps> = ({ streamId, userId, username }) => {
   const sendMessage = () => {
     if (!newMessage.trim()) return;
 
-    wsRef.current?.send(JSON.stringify({
-      type: 'chat_message',
-      streamId,
-      userId,
-      username,
-      message: newMessage.trim()
-    }));
+    wsRef.current?.send(
+      JSON.stringify({
+        type: "chat_message",
+        streamId,
+        userId,
+        username,
+        message: newMessage.trim(),
+      })
+    );
 
-    setNewMessage('');
+    setNewMessage("");
   };
 
   return (
@@ -64,7 +68,7 @@ const LiveChat: React.FC<LiveChatProps> = ({ streamId, userId, username }) => {
           <div
             key={idx}
             className={`mb-2 p-2 rounded ${
-              msg.userId === userId ? 'bg-blue-100' : 'bg-gray-100'
+              msg.userId === userId ? "bg-blue-100" : "bg-gray-100"
             }`}
           >
             <div className="font-bold">{msg.username}</div>
@@ -77,7 +81,7 @@ const LiveChat: React.FC<LiveChatProps> = ({ streamId, userId, username }) => {
           type="text"
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
-          onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+          onKeyPress={(e) => e.key === "Enter" && sendMessage()}
           className="flex-1 border rounded px-2 py-1"
           placeholder="Type a message..."
         />

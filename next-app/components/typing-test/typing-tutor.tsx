@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Keyboard } from './keyboard'
 import { Button } from "@/components/ui/button"
-import { useTyping } from '../hooks/use-typing'
+import { useTyping } from '@/hooks/use-typing'
 
 export function TypingTutor() {
   const [isStarted, setIsStarted] = useState(false)

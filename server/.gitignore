@@ -28,3 +28,5 @@ yarn-error.log*
 # Operating System Files
 .DS_Store
 Thumbs.db
+
+package-lock.json

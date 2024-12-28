@@ -37,6 +37,7 @@ const GameOverDialog = ({
   }, [isOpen, onGenerateCertificate]);
 
   return (
+    // @ts-expect-error tbd
     <Dialog open={isOpen} onClose={onClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
@@ -63,6 +64,7 @@ const GameOverDialog = ({
           </div>
           <div className="text-center">
             {imageUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
               <img src={imageUrl} alt="Certificate" className="w-full h-auto" />
             ) : (
               <p className="text-black" >Loading certificate...</p>

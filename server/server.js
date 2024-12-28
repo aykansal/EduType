@@ -5,8 +5,8 @@ const WebSocket = require('ws');
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
+require('dotenv').config();
 
-// Store active streams and their messages
 const activeStreams = new Map();
 const messageHistory = new Map();
 
@@ -15,7 +15,7 @@ wss.on('connection', (ws) => {
 
   ws.on('message', (message) => {
     const data = JSON.parse(message);
-    
+
     switch (data.type) {
       case 'join_stream':
         currentStreamId = data.streamId;
@@ -24,7 +24,7 @@ wss.on('connection', (ws) => {
           messageHistory.set(currentStreamId, []);
         }
         activeStreams.get(currentStreamId).add(ws);
-        
+
         const history = messageHistory.get(currentStreamId);
         ws.send(JSON.stringify({
           type: 'message_history',
@@ -41,9 +41,9 @@ wss.on('connection', (ws) => {
             message: data.message,
             timestamp: new Date().toISOString()
           };
-          
+
           messageHistory.get(currentStreamId).push(chatMessage);
-          
+
           activeStreams.get(currentStreamId).forEach((client) => {
             if (client.readyState === WebSocket.OPEN) {
               client.send(JSON.stringify(chatMessage));
@@ -61,6 +61,6 @@ wss.on('connection', (ws) => {
   });
 });
 
-server.listen(3001, () => {
-  console.log('WebSocket server running on port 3001');
+server.listen(process.env.PORT || 5000, () => {
+  console.log(`WebSocket server running on port ${process.env.PORT || 5000}`);
 });
