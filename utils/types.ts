@@ -1,4 +1,4 @@
-interface Player {
+export interface Player {
     id: string;
     username: string;
     wpm: number;
@@ -6,7 +6,7 @@ interface Player {
     progress: number;
 }
 
-interface Room {
+export interface Room {
     id: string;
     name: string;
     status: 'waiting' | 'in-progress' | 'completed';
@@ -17,3 +17,11 @@ interface Room {
     startTime?: Date;
     scheduledFor?: Date;
 }
+
+export interface CertificateProps {
+    date: string;
+    wpm: number;
+    accuracy: number;
+    text: string;
+  }
+  

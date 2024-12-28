@@ -4,22 +4,22 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { TypingInterface } from "./typing-interface";
 import { Scoreboard } from "./scoreboard";
-import { AudienceChat } from "./audience-chat";
 import { BiddingSystem } from "./bidding-system";
 import { Button } from "../ui/button";
 import { Shield, Play, Timer } from "lucide-react";
+import LiveChat from "../LiveChat";
 
-export function LiveSpace() {
+export const LiveSpace = () => {
   const [competitors, setCompetitors] = useState([
     { id: 1, name: "CyberTypist", wpm: 0, accuracy: 0 },
     { id: 2, name: "QuantumKeys", wpm: 0, accuracy: 0 },
   ]);
 
-  const [timeLeft, setTimeLeft] = useState(60);
-  const [isGameOver, setIsGameOver] = useState(false);
-  const [isGameStart, setIsGameStart] = useState(false);
-  const [isHost] = useState(true); // In a real app, this would come from auth/props
-  const [isLobby, setIsLobby] = useState(true);
+  const [isHost] = useState<boolean>(true);
+  const [isLobby, setIsLobby] = useState<boolean>(true);
+  const [timeLeft, setTimeLeft] = useState<number>(60);
+  const [isGameOver, setIsGameOver] = useState<boolean>(false);
+  const [isGameStart, setIsGameStart] = useState<boolean>(false);
 
   useEffect(() => {
     if (isGameStart) {
@@ -49,6 +49,8 @@ export function LiveSpace() {
     setIsLobby(false);
     setIsGameStart(true);
   };
+
+  const streamId = "test";
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -107,9 +109,17 @@ export function LiveSpace() {
         <Scoreboard competitors={competitors} />
       </div>
       <div className="space-y-8">
+        {!streamId ? (
+          <div>Loading...</div>
+        ) : (
+          <LiveChat
+            streamId={streamId as string}
+            userId={`user-${Math.random()}`}
+            username={`User ${Math.floor(Math.random() * 1000)}`}
+          />
+        )}
         <BiddingSystem competitors={competitors} />
-        <AudienceChat />
       </div>
     </div>
   );
-}
+};
