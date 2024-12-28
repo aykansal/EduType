@@ -1,7 +1,7 @@
 import { NavBar } from "@/components/navbar"
 import { DecorativeWave } from "@/components/decorative-wave"
-import { GameHero } from "./components/game-hero"
-import { GameModeExplanation } from "./components/game-mode-explanation"
+import { GameHero } from "@/components/about/game-hero"
+import { GameModeExplanation } from "@/components/about/game-mode-explanation"
 
 export default function GameMode() {
   return (

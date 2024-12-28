@@ -21,7 +21,7 @@ import { NavBar } from "@/components/navbar";
 import { DecorativeWave } from "@/components/decorative-wave";
 import { TypingGame } from "@/components/typing-test/typing-game";
 import { Leaderboard } from "@/components/typing-test/leaderboard";
-import { CertificateSection } from "@/components/certification-section";
+// import { CertificateSection } from "@/components/certification-section";
 
 export default function TypingTutorPage() {
   return (
@@ -32,7 +32,7 @@ export default function TypingTutorPage() {
         <div className="grid md:grid-cols-3 gap-8">
           <div className="md:col-span-2">
             <TypingGame />
-            <CertificateSection/>
+            {/* <CertificateSection/> */}
           </div>
           <div>
             <Leaderboard />

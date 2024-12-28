@@ -1,6 +1,5 @@
 "use client";
 
-// @ts-expect-error ignore
 import { ThirdwebProvider } from "thirdweb/react";
 
 export const ThirdwebClientProvider = ({
@@ -8,5 +7,12 @@ export const ThirdwebClientProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  return <ThirdwebProvider value>{children}</ThirdwebProvider>;
-};  
+
+  
+
+  return (
+    <ThirdwebProvider>
+      <>{children}</>
+    </ThirdwebProvider>
+  );
+};

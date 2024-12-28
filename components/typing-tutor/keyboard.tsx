@@ -101,7 +101,7 @@ export function Keyboard({ activeKey }: KeyboardProps) {
         ))}
       </div>
       {/* Decorative hands illustration */}
-      <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2">
+      {/* <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2">
         <svg
           width="200"
           height="100"
@@ -116,7 +116,7 @@ export function Keyboard({ activeKey }: KeyboardProps) {
             className="text-gray-200"
           />
         </svg>
-      </div>
+      </div> */}
     </div>
   );
 }

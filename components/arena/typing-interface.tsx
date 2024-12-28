@@ -15,7 +15,8 @@ interface Competitor {
 interface TypingInterfaceProps {
   competitor: Competitor
   updateStats: (id: number, wpm: number, accuracy: number) => void
-  isGameOver: boolean
+  isGameOver: boolean,
+  isGameStart:boolean
 }
 
 export function TypingInterface({ competitor, updateStats, isGameOver }: TypingInterfaceProps) {
