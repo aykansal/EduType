@@ -1,6 +1,7 @@
 'use client'
 
 import Link from "next/link"
+import Wallet from "./landing/ThirdwebWallet"
 import { motion } from "framer-motion"
 import { Button } from "@/src/components/ui/button"
 
@@ -33,7 +34,7 @@ export function NavBar() {
         </div>
 
         <div className="flex items-center gap-4">
-          <Button variant="ghost" className="hover:text-purple-600">Log in</Button>
+          <Button variant="ghost" className="hover:text-purple-600"><Wallet/></Button>
           <Button className="bg-purple-600 hover:bg-purple-700">Join the Guild</Button>
         </div>
       </div>

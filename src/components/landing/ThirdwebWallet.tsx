@@ -33,8 +33,8 @@ const client = createThirdwebClient({
 
 export default function Wallet() {
   return (
-    <div className="bg-purple-600 hover:bg-purple-700">
-      <ConnectButton  client={client} chain={chain} />
+    <div className="">
+      <ConnectButton classname="bg-red-600"  client={client} chain={chain} />
     </div>
   );
 }
