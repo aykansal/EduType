@@ -1,32 +1,11 @@
 "use client";
 
+import { keyboardLayout } from "@/lib/data";
 import { motion } from "framer-motion";
 
 interface KeyboardProps {
   activeKey: string | null;
 }
-
-const keyboardLayout = [
-  [
-    "`",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "0",
-    "-",
-    "=",
-    "Backspace",
-  ],
-  ["Tab", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\\"],
-  ["Caps", "a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "'", "Enter"],
-  ["Shift", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", "Shift"],
-];
 
 const keyColors: { [key: string]: string } = {
   q: "bg-purple-200",

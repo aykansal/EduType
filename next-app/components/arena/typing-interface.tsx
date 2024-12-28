@@ -65,7 +65,7 @@ export function TypingInterface({ competitor, updateStats, isGameOver }: TypingI
         <textarea
           className="w-full h-32 font-mono bg-gray-800 text-cyan-300 resize-none outline-none p-2 rounded border border-gray-600 focus:border-cyan-500 transition-colors"
           value={typedText}
-          onChange={handleKeyPress}
+          onChange={()=>handleKeyPress}
           disabled={isGameOver}
           placeholder="Start typing here..."
         />

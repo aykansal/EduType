@@ -1,20 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
-  DialogContent,
-  DialogHeader,
   DialogTitle,
   DialogFooter,
+  DialogHeader,
+  DialogContent,
 } from "@/components/ui/dialog";
+import { Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Trophy, Download } from "lucide-react";
 
 interface GameOverDialogProps {
   isOpen: boolean;
   onClose: () => void;
   wpm: number;
   accuracy: number;
-  onGenerateCertificate: () => void;
+  onGenerateCertificate: () => Promise<string>;
 }
 
 const GameOverDialog = ({
@@ -24,8 +24,21 @@ const GameOverDialog = ({
   accuracy,
   onGenerateCertificate,
 }: GameOverDialogProps) => {
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      const fetchCertificate = async () => {
+        const image = await onGenerateCertificate();
+        setImageUrl(image?.split("public")[0]);
+      };
+      fetchCertificate();
+    }
+  }, [isOpen, onGenerateCertificate]);
+
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    // @ts-expect-error tbd
+    <Dialog open={isOpen} onClose={onClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-center gap-2 text-2xl">
@@ -49,21 +62,18 @@ const GameOverDialog = ({
           <div className="text-center text-sm text-gray-500">
             {getPerformanceMessage(wpm, accuracy)}
           </div>
+          <div className="text-center">
+            {imageUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={imageUrl} alt="Certificate" className="w-full h-auto" />
+            ) : (
+              <p className="text-black" >Loading certificate...</p>
+            )}
+          </div>
         </div>
         <DialogFooter className="flex-col sm:flex-row gap-2">
-          <Button
-            variant="outline"
-            onClick={onClose}
-            className="w-full sm:w-auto"
-          >
+          <Button onClick={onClose} className="w-full sm:w-auto">
             Try Again
-          </Button>
-          <Button
-            onClick={onGenerateCertificate}
-            className="w-full sm:w-auto bg-green-600 hover:bg-green-700"
-          >
-            <Download className="mr-2 h-4 w-4" />
-            Generate Certificate
           </Button>
         </DialogFooter>
       </DialogContent>
