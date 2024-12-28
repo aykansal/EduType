@@ -11,12 +11,12 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [isClient, setIsClient] = useState(false);
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  // useEffect(() => {
+  //   setIsClient(true);
+  // }, []);
 
   return (
-    isClient && (
+   
       <div className="min-h-screen bg-gradient-to-b from-pink-50 to-white overflow-hidden">
         <SakuraElements />
         <NavBar />
@@ -27,6 +27,6 @@ export default function Home() {
           <CtaSection />
         </main>
       </div>
-    )
+    
   );
 }
