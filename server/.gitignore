@@ -30,3 +30,4 @@ yarn-error.log*
 Thumbs.db
 
 package-lock.json
+bun.lockb

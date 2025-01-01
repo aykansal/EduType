@@ -36,10 +36,12 @@ yarn-error.log*
 
 # vercel
 .vercel
+vercel.json
 
 # typescript
 *.tsbuildinfo
-# next-env.d.ts
+next-env.d.ts
 
-package-lock.json
 bun.lockb
+public/images/*
+
