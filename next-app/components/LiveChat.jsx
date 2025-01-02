@@ -1,86 +1,164 @@
-import React, { useEffect, useRef, useState } from "react"
+import { useState, useEffect, useRef } from "react";
+import io from "socket.io-client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useToast } from "@/hooks/use-toast";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
 
-const LiveChat = ({ streamId, userId, username }) => {
-  const [messages, setMessages] = useState([])
-  const [newMessage, setNewMessage] = useState("")
-  const wsRef = useRef(null)
+export default function Chat() {
+  const [socket, setSocket] = useState(null);
+  const [username, setUsername] = useState("");
+  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [isJoined, setIsJoined] = useState(false);
+  const [userCount, setUserCount] = useState(0);
+  const messagesEndRef = useRef(null);
+  const { toast } = useToast();
 
   useEffect(() => {
-    const ws = new WebSocket(`${process.env.NEXT_PUBLIC_WS_SERVER}`)
-    wsRef.current = ws
+    const socketIo = io();
+    setSocket(socketIo);
 
-    ws.onopen = () => {
-      ws.send(
-        JSON.stringify({
-          type: "join_stream",
-          streamId,
-          userId,
-          username
-        })
-      )
+    socketIo.on("message", (message) => {
+      setMessages((prev) => [...prev, message]);
+    });
+
+    socketIo.on("chatHistory", (history) => {
+      setMessages(history);
+    });
+
+    socketIo.on("userJoined", ({ username, totalUsers }) => {
+      setUserCount(totalUsers);
+      toast({
+        title: "New user joined",
+        description: `${username} joined the chat`,
+      });
+    });
+
+    socketIo.on("userLeft", ({ username, totalUsers }) => {
+      setUserCount(totalUsers);
+      toast({
+        title: "User left",
+        description: `${username} left the chat`,
+        variant: "destructive",
+      });
+    });
+
+    return () => socketIo.disconnect();
+  }, []);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  const handleJoin = (e) => {
+    e.preventDefault();
+    if (username.trim()) {
+      socket.emit("join", username);
+      setIsJoined(true);
     }
+  };
 
-    ws.onmessage = event => {
-      const data = JSON.parse(event.data)
-      if (data.type === "chat_message") {
-        setMessages(prev => [...prev, data])
-      } else if (data.type === "message_history") {
-        setMessages(data.messages)
-      }
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+    if (message.trim()) {
+      socket.emit("message", message);
+      setMessage("");
     }
+  };
+  const getInitials = (name) => {
+    return name.slice(0, 2).toUpperCase();
+  };
 
-    return () => ws.close()
-  }, [streamId, userId, username])
+  const MessageBubble = ({ message, isCurrentUser }) => {
+    return (
+      <div className="flex items-start space-x-3 mb-4">
+        <Avatar className="flex-shrink-0">
+          <AvatarFallback>{getInitials(message.username)}</AvatarFallback>
+        </Avatar>
+        <div className="flex flex-col space-y-1 max-w-[80%]">
+          <span className="font-medium text-sm">
+            {isCurrentUser ? "You" : message.username}
+          </span>
+          <div
+            className={`rounded-lg px-3 py-2 ${
+              isCurrentUser ? "bg-primary text-primary-foreground" : "bg-muted"
+            }`}
+          >
+            <p className="break-words">{message.content}</p>
+          </div>
+          <span className="text-muted-foreground text-xs">
+            {new Date(message.timestamp).toLocaleTimeString()}
+          </span>
+        </div>
+      </div>
+    );
+  };
 
-  const sendMessage = () => {
-    if (!newMessage.trim()) return
-
-    wsRef.current?.send(
-      JSON.stringify({
-        type: "chat_message",
-        streamId,
-        userId,
-        username,
-        message: newMessage.trim()
-      })
-    )
-
-    setNewMessage("")
+  if (!isJoined) {
+    return (
+      <div className="flex justify-center items-center p-4 min-h-screen">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle className="text-center">Join Chat</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleJoin} className="space-y-4">
+              <Input
+                placeholder="Enter username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <Button type="submit" className="w-full">
+                Join Chat
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    );
   }
 
   return (
-    <div className="w-96 border rounded-lg p-4 text-black">
-      <div className="h-96 overflow-y-auto mb-4 border rounded p-2">
-        {messages.map((msg, idx) => (
-          <div
-            key={idx}
-            className={`mb-2 p-2 rounded ${
-              msg.userId === userId ? "bg-blue-100" : "bg-gray-100"
-            }`}
-          >
-            <div className="font-bold">{msg.username}</div>
-            <div>{msg.message}</div>
+    <div className="mx-auto p-4 max-w-4xl container">
+      <Card>
+        <CardHeader className="flex flex-row justify-between items-center space-y-0">
+          <CardTitle>Chat Room</CardTitle>
+          <div className="flex items-center space-x-2">
+            <span className="text-muted-foreground text-sm">
+              Online Users: {userCount}
+            </span>
           </div>
-        ))}
-      </div>
-      <div className="flex gap-2">
-        <input
-          type="text"
-          value={newMessage}
-          onChange={e => setNewMessage(e.target.value)}
-          onKeyPress={e => e.key === "Enter" && sendMessage()}
-          className="flex-1 border rounded px-2 py-1"
-          placeholder="Type a message..."
-        />
-        <button
-          onClick={sendMessage}
-          className="bg-blue-500 text-white px-4 py-1 rounded"
-        >
-          Send
-        </button>
-      </div>
-    </div>
-  )
-}
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <ScrollArea className="p-4 border rounded-md w-full h-[60vh]">
+            <div className="space-y-4">
+              {messages.map((msg) => (
+                <MessageBubble
+                  key={msg.id}
+                  message={msg}
+                  isCurrentUser={msg.username === username}
+                />
+              ))}
+              <div ref={messagesEndRef} />
+            </div>
+          </ScrollArea>
 
-export default LiveChat
+          <Separator />
+
+          <form onSubmit={handleSendMessage} className="flex space-x-2">
+            <Input
+              placeholder="Type your message..."
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+            />
+            <Button type="submit">Send</Button>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

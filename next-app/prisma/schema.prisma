@@ -6,3 +6,21 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id            String  @id @unique @default(uuid())
+  PlayingStatus Boolean @default(false)
+  username      String  @unique
+}
+
+model Game {
+  id         String     @id @unique @default(uuid())
+  LobbyCount LobbyCount @default(Empty)
+  timestamp  DateTime   @default(now())
+}
+
+enum LobbyCount {
+  Full
+  Semi
+  Empty
+}

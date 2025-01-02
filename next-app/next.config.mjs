@@ -1,6 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   serverExternalPackages: ['pdf-poppler'],
+  reactStrictMode:false,
+  webpack: (config, { isServer }) => {
+    // Socket.IO client-side configuration
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        net: false,
+        tls: false,
+      };
+    }
+    return config;
+  },
   // experimental: {
   //   optimizeCss: true,
   // },

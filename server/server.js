@@ -83,10 +83,6 @@ const activeStreams = new Map();
 const messageHistory = new Map();
 const MESSAGE_LIMIT = 100; // Limit for message history
 
-// HTTP routes
-const router = require('./routes/route');
-app.use('/', router);
-
 // WebSocket handling
 wss.on('connection', (ws) => {
   let currentStreamId = null;
@@ -153,7 +149,9 @@ wss.on('connection', (ws) => {
   });
 });
 
+const PORT = process.env.PORT || 5000;
+
 // Start server
-server.listen(process.env.PORT || 5000, () => {
-  console.log(`Server running on port ${process.env.PORT || 5000}`);
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });

@@ -70,3 +70,30 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    /* ... (keep other existing variables) */
+  }
+
+  .font-gaming {
+    font-family: var(--font-gaming);
+  }
+}
+
+/* Add gaming-specific animations */
+@keyframes pulse-glow {
+  0%, 100% { 
+    filter: brightness(1) drop-shadow(0 0 5px rgba(139, 92, 246, 0.3));
+  }
+  50% { 
+    filter: brightness(1.2) drop-shadow(0 0 10px rgba(139, 92, 246, 0.5));
+  }
+}
+
+.animate-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
