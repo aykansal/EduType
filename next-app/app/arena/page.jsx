@@ -1,14 +1,84 @@
 "use client";
-
-import { toast } from "sonner";
 import { useState } from "react";
+import { toast } from "sonner";
 import { TrophyIcon } from "lucide-react";
+import { Header } from "@/components/arena/header";
+import { Chat} from "@/components/arena/chat";
+import { MatchCard } from "@/components/arena/match-card";
+import { LeaderboardDrawer } from "@/components/arena/leaderboard-drawer";
 import { Button } from "@/components/ui/button";
-import { Chat } from "@/components/arena/components_V0/chat";
 import { AnimatedGrid } from "@/components/ui/animated-grid";
-import { Header } from "@/components/arena/components_V0/header";
-import { MatchCard } from "@/components/arena/components_V0/match-card";
-import { LeaderboardDrawer } from "@/components/arena/components_V0/leaderboard-drawer";
+
+export default function ArenaPage() {
+  const [matches, setMatches] = useState(MOCK_MATCHES);
+  const [messages] = useState(MOCK_MESSAGES);
+  const [users] = useState(MOCK_USERS);
+  const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
+  const [globalRankings] = useState(MOCK_GLOBAL_RANKINGS);
+
+  const handleBid = (matchId, playerId, amount) => {
+    setMatches((prevMatches) =>
+      prevMatches.map((match) =>
+        match.id === matchId
+          ? {
+              ...match,
+              userBid: {
+                playerId,
+                amount,
+              },
+            }
+          : match
+      )
+    );
+
+    toast.success(`Bid placed successfully: ${amount} Edu`);
+  };
+
+  const allPlayers = matches.flatMap((match) => [match.player1, match.player2]);
+
+  return (
+    <div className="flex flex-col h-screen">
+      <AnimatedGrid />
+      <Header />
+
+      <div className="flex flex-1 overflow-hidden">
+        <main className="flex-1 p-6 overflow-y-auto">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 font-gaming text-transparent text-xl">
+              Live Matches
+            </h2>
+            <Button
+              variant="gaming"
+              className="gap-2"
+              onClick={() => setIsLeaderboardOpen(true)}
+            >
+              <TrophyIcon className="w-4 h-4" />
+              Leaderboard
+            </Button>
+          </div>
+
+          <div className="space-y-6">
+            {matches.map((match) => (
+              <MatchCard key={match.id} match={match} onBid={handleBid} />
+            ))}
+          </div>
+        </main>
+
+        <aside className="border-purple-500/20 bg-black/40 backdrop-blur-sm border-l w-80">
+          <Chat messages={messages} users={users} />
+        </aside>
+      </div>
+
+      <LeaderboardDrawer
+        isOpen={isLeaderboardOpen}
+        onClose={() => setIsLeaderboardOpen(false)}
+        players={allPlayers}
+        globalRankings={globalRankings}
+      />
+    </div>
+  );
+}
+
 
 const MOCK_MATCHES = [
   {
@@ -125,73 +195,3 @@ const MOCK_GLOBAL_RANKINGS = [
     rank: 5,
   },
 ];
-
-export default function ArenaPage() {
-  const [matches, setMatches] = useState(MOCK_MATCHES);
-  const [messages] = useState(MOCK_MESSAGES);
-  const [users] = useState(MOCK_USERS);
-  const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
-  const [globalRankings] = useState(MOCK_GLOBAL_RANKINGS);
-
-  const handleBid = (matchId, playerId, amount) => {
-    setMatches((prevMatches) =>
-      prevMatches.map((match) =>
-        match.id === matchId
-          ? {
-              ...match,
-              userBid: {
-                playerId,
-                amount,
-              },
-            }
-          : match
-      )
-    );
-
-    toast.success(`Bid placed successfully: ${amount} Edu`);
-  };
-
-  const allPlayers = matches.flatMap((match) => [match.player1, match.player2]);
-
-  return (
-    <div className="flex flex-col h-screen">
-      <AnimatedGrid />
-      <Header />
-
-      <div className="flex flex-1 overflow-hidden">
-        <main className="flex-1 p-6 overflow-y-auto">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 font-gaming text-transparent text-xl">
-              Live Matches
-            </h2>
-            <Button
-              variant="gaming"
-              className="gap-2"
-              onClick={() => setIsLeaderboardOpen(true)}
-            >
-              <TrophyIcon className="w-4 h-4" />
-              Leaderboard
-            </Button>
-          </div>
-
-          <div className="space-y-6">
-            {matches.map((match) => (
-              <MatchCard key={match.id} match={match} onBid={handleBid} />
-            ))}
-          </div>
-        </main>
-
-        <aside className="border-purple-500/20 bg-black/40 backdrop-blur-sm border-l w-80">
-          <Chat messages={messages} users={users} />
-        </aside>
-      </div>
-
-      <LeaderboardDrawer
-        isOpen={isLeaderboardOpen}
-        onClose={() => setIsLeaderboardOpen(false)}
-        players={allPlayers}
-        globalRankings={globalRankings}
-      />
-    </div>
-  );
-}

@@ -37,8 +37,7 @@
     "sonner": "^1.7.1",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
-    "thirdweb": "^5.80.0",
-    "ws": "^8.18.0"
+    "thirdweb": "^5.80.0"
   },
   "devDependencies": {
     "pino-pretty": "^13.0.0",
