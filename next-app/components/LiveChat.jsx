@@ -7,6 +7,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
+import { getSocket } from "@/config/socket";
 
 export default function Chat() {
   const [socket, setSocket] = useState(null);
@@ -19,7 +20,8 @@ export default function Chat() {
   const { toast } = useToast();
 
   useEffect(() => {
-    const socketIo = io();
+    // const socketIo = io();
+    const socketIo = getSocket();
     setSocket(socketIo);
 
     socketIo.on("message", (message) => {

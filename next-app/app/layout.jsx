@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
         {/* <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme"> */}
           <ThirdwebClientProvider>
             <AuthProvider>{children}</AuthProvider>
-            <Toaster/>
+            <Toaster  />
           </ThirdwebClientProvider>
         {/* </ThemeProvider> */}
       </body>
