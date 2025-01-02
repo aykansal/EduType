@@ -2,8 +2,8 @@
 
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
-import { NavBar } from "@/components/navbar";
-import { SakuraElements } from "@/components/landing/sakura-elements";
+import { NavBar } from "../components/navbar";
+import { SakuraElements } from "../components/landing/sakura-elements";
 
 const HeroLoading = () => (
   <div className="animate-pulse bg-gray-100 h-[600px]" />
