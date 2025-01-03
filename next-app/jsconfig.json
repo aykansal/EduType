@@ -1,8 +1,12 @@
 {
   "compilerOptions": {
+    // "checkJs": false
     "paths": {
-      "@/*": ["./*"]
+      "@/*": [
+        "./*"
+      ]
     },
-    "checkJs": false
+    "moduleResolution": "node",
+    "module": "ESNext"
   }
 }
