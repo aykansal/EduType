@@ -11,12 +11,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
+      <head>
+        <script async src="https://cdn.splitbee.io/sb.js" />
+      </head>
       <body>
         {/* <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme"> */}
-          <ThirdwebClientProvider>
-            <AuthProvider>{children}</AuthProvider>
-            <Toaster  />
-          </ThirdwebClientProvider>
+        <ThirdwebClientProvider>
+          <AuthProvider>{children}</AuthProvider>
+          <Toaster />
+        </ThirdwebClientProvider>
         {/* </ThemeProvider> */}
       </body>
     </html>
