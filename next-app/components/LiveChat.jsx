@@ -19,7 +19,8 @@ export default function LiveChat() {
   const { toast } = useToast();
 
   useEffect(() => {
-    const socketIo = io();
+    // const socketIo = io();
+    const socketIo = getSocket();
     setSocket(socketIo);
 
     socketIo.on("message", (message) => {

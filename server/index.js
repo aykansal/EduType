@@ -404,11 +404,10 @@ export default app;
 
 import cors from 'cors';
 import express from 'express';
-import { configDotenv } from 'dotenv';
 import { v2 as cloudinary } from 'cloudinary';
 import { createCanvas, registerFont } from 'canvas';
-import fs from 'fs'
-import path from 'path'
+import fs from 'fs';
+import { configDotenv } from 'dotenv';
 configDotenv();
 
 const app = express();
@@ -433,7 +432,7 @@ app.get('/', (req, res) => {
 });
 
 console.log("Content inside root Folder: ", fs.readdirSync(process.cwd()));
-console.log("Content inside Server Folder: ", fs.readdirSync(path.join(process.cwd(), 'server')));
+// console.log("Content inside Server Folder: ", fs.readdirSync(path.join(process.cwd(), 'server')));
 
 app.get('/api/generate-certificate', async (req, res) => {
     try {
