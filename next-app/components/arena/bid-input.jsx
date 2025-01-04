@@ -16,7 +16,7 @@ export function BidInput({ defaultValue = 1.22, onChange, className }) {
   }
 
   return (
-    <div className={cn("flex flex-col space-y-1.5", className)}>
+    <div className={cn("flex flex-col space-y-1.5 text-white", className)}>
       <Label
         htmlFor="bidAmount"
         className="font-gaming text-purple-300 text-sm"

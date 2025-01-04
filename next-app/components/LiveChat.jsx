@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import io from "socket.io-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,9 +6,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { getSocket } from "@/config/socket";
+import { io } from "socket.io-client";
 
-export default function Chat() {
+export default function LiveChat() {
   const [socket, setSocket] = useState(null);
   const [username, setUsername] = useState("");
   const [message, setMessage] = useState("");
@@ -34,10 +33,10 @@ export default function Chat() {
 
     socketIo.on("userJoined", ({ username, totalUsers }) => {
       setUserCount(totalUsers);
-      toast({
-        title: "New user joined",
-        description: `${username} joined the chat`,
-      });
+      // toast({
+      //   title: "New user joined",
+      //   description: `${username} joined the chat`,
+      // });
     });
 
     socketIo.on("userLeft", ({ username, totalUsers }) => {

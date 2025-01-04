@@ -10,7 +10,7 @@ export function Chat({ messages, users }) {
   const onlineCount = users.filter(u => u.online).length
 
   return (
-    <div className="flex flex-col border-l h-full">
+    <div className="flex flex-col border-l h-full text-white">
       <div className="p-4 border-b">
         <span className="text-muted-foreground text-sm">
           Online Users: <span className="text-green-500">{onlineCount}</span>
