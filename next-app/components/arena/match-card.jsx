@@ -17,7 +17,7 @@ export function MatchCard({ match, onBid }) {
     const progressWidth = (player.wpm / 150) * 100
 
     return (
-      <div className="relative flex-1 border-purple-500/20 hover:border-purple-500/40 bg-black/40 hover:bg-black/60 backdrop-blur-sm p-4 border rounded-xl transition-all group">
+      <div className="relative flex-1 border-purple-500/20 hover:border-purple-500/40 bg-black/40 hover:bg-black/60 backdrop-blur-sm p-4 border rounded-xl text-white transition-all group">
         <div className="-z-10 absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-blue-500/10 rounded-xl" />
 
         <div className="flex justify-between items-center mb-3">
@@ -72,7 +72,7 @@ export function MatchCard({ match, onBid }) {
           <PlayerCard player={match.player2} label="Player 2" />
         </div>
 
-        <div className="flex justify-between items-center gap-4 mt-6">
+        <div className="flex justify-between items-center gap-4 mt-6 text-white">
           <Button
             variant="gaming"
             className="flex-1"

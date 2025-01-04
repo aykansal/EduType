@@ -3,7 +3,7 @@ import { Keyboard } from "lucide-react"
 
 export function Header() {
   return (
-    <header className="relative border-purple-500/20 bg-black/40 backdrop-blur-sm border-b">
+    <header className="relative border-purple-500/20 bg-black/40 backdrop-blur-sm border-b text-white">
       <div className="-z-10 absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10" />
 
       <div className="flex justify-between items-center p-4">

@@ -7,7 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { useTypingGame } from "@/hooks/use-typing-game";
 
 const SAMPLE_TEXT =
-  " The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs. How vexingly quick daft zebras jump!";
+  "The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs. How vexingly quick daft zebras jump! The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs. How vexingly quick daft zebras jump!";
 
 export function TypingGame() {
   const {

@@ -1,81 +1,84 @@
-"use client"
+"use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react"
-import { motion } from "framer-motion"
-import { TypingInterface } from "./typing-interface"
-import { Scoreboard } from "./scoreboard"
-import { BiddingSystem } from "./bidding-system"
-import { Button } from "../ui/button"
-import { Shield, Play, Timer } from "lucide-react"
-import dynamic from "next/dynamic"
+import { useState, useEffect, useCallback, useMemo } from "react";
+import { motion } from "framer-motion";
+import { TypingInterface } from "./typing-interface";
+import { Scoreboard } from "./scoreboard";
+import { BiddingSystem } from "./bidding-system";
+import { Button } from "../ui/button";
+import { Shield, Play, Timer } from "lucide-react";
+import dynamic from "next/dynamic";
 
 const LiveChat = dynamic(() => import("../LiveChat"), {
   ssr: false,
   loading: () => (
-    <div className="animate-pulse h-64 bg-gray-800 rounded-lg"></div>
-  )
-})
+    <div className="bg-gray-800 rounded-lg h-64 animate-pulse"></div>
+  ),
+});
 
 export const LiveSpace = () => {
   // Initial state with useMemo to prevent recreation
   const [competitors, setCompetitors] = useState(() => [
     { id: 1, name: "CyberTypist", wpm: 0, accuracy: 0 },
-    { id: 2, name: "QuantumKeys", wpm: 0, accuracy: 0 }
-  ])
+    { id: 2, name: "QuantumKeys", wpm: 0, accuracy: 0 },
+  ]);
 
-  const [isHost] = useState(true)
-  const [isLobby, setIsLobby] = useState(true)
-  const [timeLeft, setTimeLeft] = useState(60)
-  const [isGameOver, setIsGameOver] = useState(false)
-  const [isGameStart, setIsGameStart] = useState(false)
+  const [isHost] = useState(true);
+  const [isLobby, setIsLobby] = useState(true);
+  const [timeLeft, setTimeLeft] = useState(60);
+  const [isGameOver, setIsGameOver] = useState(false);
+  const [isGameStart, setIsGameStart] = useState(false);
 
   // Memoize timer effect dependencies
   useEffect(() => {
-    if (!isGameStart) return
+    if (!isGameStart) return;
 
     const timer = setInterval(() => {
-      setTimeLeft(prevTime => {
+      setTimeLeft((prevTime) => {
         if (prevTime <= 1) {
-          clearInterval(timer)
-          setIsGameOver(true)
-          return 0
+          clearInterval(timer);
+          setIsGameOver(true);
+          return 0;
         }
-        return prevTime - 1
-      })
-    }, 1000)
+        return prevTime - 1;
+      });
+    }, 1000);
 
-    return () => clearInterval(timer)
-  }, [isGameStart])
+    return () => clearInterval(timer);
+  }, [isGameStart]);
 
   // Memoize callback functions
   const updateCompetitorStats = useCallback((id, wpm, accuracy) => {
-    setCompetitors(prevCompetitors =>
-      prevCompetitors.map(competitor =>
+    setCompetitors((prevCompetitors) =>
+      prevCompetitors.map((competitor) =>
         competitor.id === id ? { ...competitor, wpm, accuracy } : competitor
       )
-    )
-  }, [])
+    );
+  }, []);
 
   const handleGameStart = useCallback(() => {
-    setIsLobby(false)
-    setIsGameStart(true)
-  }, [])
+    setIsLobby(false);
+    setIsGameStart(true);
+  }, []);
 
   // Memoize static values
-  const streamId = useMemo(() => "test", [])
-  const userId = useMemo(() => `user-${Math.random()}`, [])
-  const username = useMemo(() => `User ${Math.floor(Math.random() * 1000)}`, [])
+  const streamId = useMemo(() => "test", []);
+  const userId = useMemo(() => `user-${Math.random()}`, []);
+  const username = useMemo(
+    () => `User ${Math.floor(Math.random() * 1000)}`,
+    []
+  );
 
   // Memoize the game interface
   const GameInterface = useMemo(
     () => (
       <>
-        <div className="flex items-center justify-center gap-2 text-4xl font-bold mb-4 text-red-500 font-digital">
+        <div className="flex justify-center items-center gap-2 mb-4 font-bold font-digital text-4xl text-red-500">
           <Timer className="animate-pulse" />
           {timeLeft > 0 ? `${timeLeft}s` : "GAME OVER"}
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {competitors.map(competitor => (
+        <div className="gap-6 grid grid-cols-1 md:grid-cols-2">
+          {competitors.map((competitor) => (
             <TypingInterface
               key={competitor.id}
               competitor={competitor}
@@ -88,38 +91,38 @@ export const LiveSpace = () => {
       </>
     ),
     [competitors, timeLeft, isGameOver, isGameStart, updateCompetitorStats]
-  )
+  );
 
   // Memoize the lobby interface
   const LobbyInterface = useMemo(
     () => (
-      <div className="text-center py-12">
+      <div className="py-12 text-center">
         <Button
           onClick={handleGameStart}
-          className="bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-lg flex items-center gap-2 mx-auto"
+          className="flex items-center gap-2 bg-green-500 hover:bg-green-600 mx-auto px-8 py-4 rounded-lg text-white"
         >
           <Play size={24} />
           Start Game
         </Button>
-        <p className="text-gray-400 mt-4">
+        <p className="mt-4 text-gray-400">
           Waiting for host to start the game...
         </p>
       </div>
     ),
     [handleGameStart]
-  )
+  );
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <div className="lg:col-span-2 space-y-8">
+    <div className="gap-8 grid grid-cols-1 lg:grid-cols-3">
+      <div className="space-y-8 lg:col-span-2">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="bg-gray-800 rounded-lg shadow-lg p-6 border border-cyan-500"
+          className="border-cyan-500 bg-gray-800 shadow-lg p-6 border rounded-lg"
         >
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-3xl font-bold text-cyan-400 font-tech">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="font-bold font-tech text-3xl text-cyan-400">
               Battle Arena
             </h2>
             {isHost && isLobby && (
@@ -136,12 +139,13 @@ export const LiveSpace = () => {
       </div>
       <div className="space-y-8">
         {!streamId ? (
-          <div className="animate-pulse h-64 bg-gray-800 rounded-lg"></div>
+          <div className="bg-gray-800 rounded-lg h-64 animate-pulse"></div>
         ) : (
-          <LiveChat streamId={streamId} userId={userId} username={username} />
+          // <LiveChat streamId={streamId} userId={userId} username={username} />
+          <LiveChat />
         )}
         <BiddingSystem competitors={competitors} />
       </div>
     </div>
-  )
-}
+  );
+};
