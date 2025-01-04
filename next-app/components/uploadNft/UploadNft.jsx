@@ -1,5 +1,5 @@
 //@ts-nocheck
-import { main } from "@/app/api/get";
+import { main } from "@/app/api/mint-nft/get";
 import { useActiveAccount, ConnectButton  } from "thirdweb/react";
 import { mintWithSignature } from "thirdweb/extensions/erc721";
 import { defineChain } from "thirdweb/chains";

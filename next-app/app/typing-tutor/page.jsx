@@ -30,3 +30,4 @@ export default function TypingTutorPage() {
     </div>
   );
 }
+
