@@ -9,6 +9,7 @@ import {
   createThirdwebClient,
   getContract
 } from "thirdweb"
+import { Button } from "../ui/button"
 
 export default function Home({name, description, image}) {
   const wallet = useActiveAccount()?.address
@@ -43,14 +44,7 @@ export default function Home({name, description, image}) {
 
   return (
     <>
-      <ConnectButton
-        client={client}
-        appMetadata={{
-          name: "Example App",
-          url: "https://example.com"
-        }}
-      />
-      <button onClick={mint}>Mint</button>
+      <Button onClick={mint}>Mint</Button>
     </>
   )
 }

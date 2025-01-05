@@ -133,6 +133,6 @@ nextApp.prepare().then(() => {
 
   // Start the server
   httpServer.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
+    console.log(`Server running on http://localhost:${a}`);
   });
 });

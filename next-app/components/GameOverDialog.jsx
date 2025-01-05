@@ -9,6 +9,7 @@ import {
 import { Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import confetti from "canvas-confetti";
+import MintCertificate from "@/components/satyansh-components/MintCertificate";
 
 const GameOverDialog = ({
   isOpen,
@@ -114,7 +115,9 @@ const GameOverDialog = ({
             ) : null}
           </div>
         </div>
-        <DialogFooter className="sm:flex-row flex-col gap-2">
+        <DialogFooter className="sm:flex-row flex-col gap-2 justify-center items-center">
+          <MintCertificate image={""} name={""} description={""}/>
+
           <Button onClick={onClose} className="w-full sm:w-auto">
             Try Again
           </Button>
