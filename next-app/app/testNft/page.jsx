@@ -26,12 +26,12 @@
 //   };
 
 //   return (
-//     <div className="max-w-2xl mx-auto p-6">
-//       <h1 className="text-3xl font-bold mb-6">Mint Your NFT</h1>
+//     <div className="mx-auto p-6 max-w-2xl">
+//       <h1 className="mb-6 font-bold text-3xl">Mint Your NFT</h1>
 
 //       <form onSubmit={handleSubmit} className="space-y-4">
 //         <div>
-//           <label htmlFor="name" className="block text-sm font-medium mb-1">
+//           <label htmlFor="name" className="block mb-1 font-medium text-sm">
 //             NFT Name
 //           </label>
 //           <input
@@ -40,13 +40,13 @@
 //             name="name"
 //             value={formData.name}
 //             onChange={handleInputChange}
-//             className="w-full p-2 border rounded"
+//             className="p-2 border rounded w-full"
 //             required
 //           />
 //         </div>
 
 //         <div>
-//           <label htmlFor="description" className="block text-sm font-medium mb-1">
+//           <label htmlFor="description" className="block mb-1 font-medium text-sm">
 //             Description
 //           </label>
 //           <textarea
@@ -54,13 +54,13 @@
 //             name="description"
 //             value={formData.description}
 //             onChange={handleInputChange}
-//             className="w-full p-2 border rounded"
+//             className="p-2 border rounded w-full"
 //             required
 //           />
 //         </div>
 
 //         <div>
-//           <label htmlFor="imageUrl" className="block text-sm font-medium mb-1">
+//           <label htmlFor="imageUrl" className="block mb-1 font-medium text-sm">
 //             Image URL
 //           </label>
 //           <input
@@ -69,7 +69,7 @@
 //             name="imageUrl"
 //             value={formData.imageUrl}
 //             onChange={handleInputChange}
-//             className="w-full p-2 border rounded"
+//             className="p-2 border rounded w-full"
 //             required
 //           />
 //         </div>
@@ -88,13 +88,13 @@
 //       </form>
 
 //       {error && (
-//         <div className="mt-4 p-4 bg-red-100 text-red-700 rounded">
+//         <div className="bg-red-100 mt-4 p-4 rounded text-red-700">
 //           {error}
 //         </div>
 //       )}
 
 //       {mintedNFT && (
-//         <div className="mt-4 p-4 bg-green-100 text-green-700 rounded">
+//         <div className="bg-green-100 mt-4 p-4 rounded text-green-700">
 //           <h2 className="font-bold">NFT Minted Successfully!</h2>
 //           <p>Token ID: {mintedNFT.tokenId}</p>
 //           <p>Transaction Hash: {mintedNFT.receipt.transactionHash}</p>
@@ -104,7 +104,7 @@
 //   );
 // }
 
-import { main } from "@/app/api/get"
+import { main } from "@/app/api/mint-nft/get"
 import { useActiveAccount, ConnectButton } from "thirdweb/react"
 import { mintWithSignature } from "thirdweb/extensions/erc721"
 import { defineChain } from "thirdweb/chains"

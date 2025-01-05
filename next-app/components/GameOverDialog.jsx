@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import confetti from "canvas-confetti";
+import MintCertificate from "@/components/MintCertificate";
 
 const GameOverDialog = ({
   isOpen,
@@ -20,17 +20,16 @@ const GameOverDialog = ({
   const [imageUrl, setImageUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [isImageRendering, setIsImageRendering] = useState(false);
 
   const fetchCertificate = async () => {
-    if (!isOpen) return; // Don't fetch if dialog isn't open
+    if (!isOpen) return;
 
     setIsLoading(true);
     setError(null);
     try {
       const imageResponse = await onGenerateCertificate();
       if (imageResponse) {
-        // Assuming the server is running on localhost:5000
-        // const fullImageUrl = `http://localhost:5000/${imageResponse}`;
         setImageUrl(imageResponse);
       } else {
         setError("Failed to generate certificate");
@@ -45,15 +44,15 @@ const GameOverDialog = ({
 
   const handleImageLoad = () => {
     // Import and start confetti when image loads
-    import('canvas-confetti').then((confetti) => {
+    import("canvas-confetti").then((confetti) => {
       confetti.default({
         particleCount: 100,
         spread: 70,
-        origin: { y: 0.6 }
+        origin: { y: 0.6 },
       });
     });
+    setIsImageRendering(true);
   };
-
 
   useEffect(() => {
     if (isOpen) {
@@ -100,22 +99,31 @@ const GameOverDialog = ({
             ) : error ? (
               <p className="text-red-500">{error}</p>
             ) : imageUrl ? (
-              (
-                <div className="relative shadow-lg rounded-lg overflow-hidden">
-                <img 
-                  src={imageUrl} 
-                  alt="Certificate" 
+              <div className="relative shadow-lg rounded-lg overflow-hidden">
+                <MintCertificate
+                  image={imageUrl}
+                  name={"Test"}
+                  description={"Test"}
+                />
+                <img
+                  src={imageUrl}
+                  alt="Certificate"
                   className="w-full h-auto"
                   onError={() => setError("Failed to load certificate image")}
                   onLoad={handleImageLoad}
                 />
               </div>
-              )
             ) : null}
           </div>
         </div>
         <DialogFooter className="sm:flex-row flex-col gap-2">
-          <Button onClick={onClose} className="w-full sm:w-auto">
+          <Button
+            onClick={() => {
+              setIsImageRendering(false);
+              onClose();
+            }}
+            className="w-full sm:w-auto"
+          >
             Try Again
           </Button>
         </DialogFooter>
