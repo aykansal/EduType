@@ -1,10 +1,9 @@
 import { io } from "socket.io-client";
 
-
 let socket;
 export const getSocket = () => {
   if (!socket) {
-    socket = io(process.env.NEXT_PUBLIC_WS_SERVER || "http://localhost:3000");
+    socket = io(process.env.NEXT_PUBLIC_BACKEND_URL);
   }
   return socket;
 };
