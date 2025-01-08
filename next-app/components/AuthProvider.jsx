@@ -1,15 +1,28 @@
-"use client"
-import React from "react"
-import HomePage from "@/app/page"
-import { useActiveAccount } from "thirdweb/react"
+"use client";
+
+import HomePage from "@/app/page";
+// import { navigate } from "@/lib/actions";
+import React, { useState, useEffect } from "react";
+import { useActiveAccount } from "thirdweb/react";
 
 const AuthProvider = ({ children }) => {
-  const account = useActiveAccount()
-  if (!account) {
-    return <HomePage />
-  } else {
-    return <>{children}</>
-  }
-}
+  const account = useActiveAccount();
+  const [isClient, setIsClient] = useState(false);
 
-export default AuthProvider
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null; 
+  }
+
+  if (!account) {
+    return <HomePage/>
+    // navigate('/');
+  }
+  
+  return <>{children}</>;
+};
+
+export default AuthProvider;
