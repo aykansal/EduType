@@ -21,6 +21,8 @@ export default function LiveChat() {
   const [userCount, setUserCount] = useState(0);
   const messagesEndRef = useRef(null);
   const { toast } = useToast();
+  const [page, setPage] = useState(1);
+  const MESSAGES_PER_PAGE = 50;
 
   useEffect(() => {
     const socketIo = getSocket();
@@ -57,6 +59,15 @@ export default function LiveChat() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+  
+  useEffect(() => {
+    return () => {
+      socket?.off("message");
+      socket?.off("chatHistory");
+      socket?.off("userJoined");
+      socket?.off("userLeft");
+    };
+  }, [socket]);
 
   const handleJoin = (e) => {
     e.preventDefault();

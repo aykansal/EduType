@@ -5,12 +5,17 @@ import { createServer } from 'http';
 import { v2 as cloudinary } from 'cloudinary';
 import { createCanvas, registerFont } from 'canvas';
 import { configDotenv } from 'dotenv';
+// import rateLimit from 'express-rate-limit';
 
 configDotenv();
 
 const app = express();
 const port = process.env.PORT || 5000;
 const fontPath = "https://fonts.cdnfonts.com/s/7358/handy00.woff";
+// const limiter = rateLimit({
+//     windowMs: 15 * 60 * 1000,
+//     max: 100
+//   });
 
 // Middleware
 app.use(cors());
@@ -46,6 +51,32 @@ const chatHistory = [];
 const chatMessages = [];
 const users = new Map();
 const onlineUsers = new Map();
+const MAX_PLAYERS = 2;
+const GAME_DURATION = 60;
+const players = new Set();
+const spectators = new Set();
+let activeWords = [
+    "type",
+    "fast",
+    "bubble",
+    "challenge",
+    "keyboard",
+    "speed",
+    "accuracy",
+    "practice",
+    "improve",
+    "skills",
+    "compete",
+    "victory",
+    "words",
+    "floating",
+    "capture",
+    "stack",
+    "game",
+    "player",
+    "score",
+    "time",
+];
 
 // Create HTTP server
 const httpServer = createServer(app);
@@ -250,6 +281,60 @@ io.on('connection', (socket) => {
         io.emit('message', messageData);
     });
 
+    socket.on('joinGame', (username) => {
+        const player = {
+            id: socket.id,
+            name: username,
+            wordCount: 0
+        };
+        players.push(player);
+        io.emit('playerJoined', players);
+    });
+
+    socket.on('startGame', () => {
+        const gameState = {
+            activeWords,
+            players,
+            timeLeft: 60
+        };
+        io.emit('gameStarted');
+        io.emit('gameState', gameState);
+        // startGameLoop(io);
+    });
+
+    socket.on('wordMatched', (wordId) => {
+        const player = players.find(p => p.id === socket.id);
+        if (player) {
+            player.wordCount++;
+            io.emit('wordMatched', { playerId: player.id, wordCount: player.wordCount });
+
+            if (player.wordCount >= WORDS_TO_WIN) {
+                io.emit('gameOver', { winner: player });
+            }
+        }
+    });
+
+    socket.on('checkGameStatus', () => {
+        const isPlayer = players.size < MAX_PLAYERS;
+        if (isPlayer) {
+            players.add(socket.id);
+        } else {
+            spectators.add(socket.id);
+        }
+
+        socket.emit('gameState', {
+            activeWords,
+            players: Array.from(players),
+            timeLeft: GAME_DURATION,
+            isPlayer
+        });
+    });
+
+    socket.on('wordMatched', (wordId) => {
+        if (!players.has(socket.id)) return;
+        // Handle word matching logic
+    });
+
     socket.on('disconnect', () => {
         const arenaUser = onlineUsers.get(socket.id);
         if (arenaUser) {
@@ -265,6 +350,14 @@ io.on('connection', (socket) => {
             users.delete(socket.id);
             io.emit('userLeft', { username: chatUsername, totalUsers: users.size });
         }
+        // const index = players.findIndex(p => p.id === socket.id);
+        // if (index !== -1) {
+        //     players.splice(index, 1);
+        //     io.emit('playerJoined', players);
+        // }
+
+        players.delete(socket.id);
+        spectators.delete(socket.id);
     });
 });
 
