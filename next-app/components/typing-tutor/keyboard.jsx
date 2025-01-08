@@ -1,11 +1,11 @@
-"use client"
+// "use client"
 import { motion } from "framer-motion"
 import { keyboardLayout, keyColors } from "@/lib/data"
 
 export function Keyboard({ activeKey }) {
   return (
     <div className="relative">
-      <div className="bg-white rounded-3xl p-6 shadow-lg">
+      <div className="bg-white shadow-lg p-6 rounded-3xl">
         {keyboardLayout.map((row, rowIndex) => (
           <div key={rowIndex} className="flex justify-center gap-1 mb-1">
             {row.map(key => {
@@ -35,7 +35,7 @@ export function Keyboard({ activeKey }) {
                   animate={isActive ? { scale: 0.95 } : { scale: 1 }}
                   transition={{ duration: 0.1 }}
                 >
-                  <span className="text-gray-700 text-sm font-medium">
+                  <span className="font-medium text-gray-700 text-sm">
                     {key}
                   </span>
                 </motion.div>
@@ -45,7 +45,7 @@ export function Keyboard({ activeKey }) {
         ))}
       </div>
       {/* Decorative hands illustration */}
-      {/* <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2">
+      {/* <div className="-bottom-16 left-1/2 absolute transform -translate-x-1/2">
         <svg
           width="200"
           height="100"

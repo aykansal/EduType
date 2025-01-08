@@ -1,5 +1,5 @@
 import { NavBar } from "@/components/navbar";
-import { TypingGame } from "@/components/typing-test/typing-game";
+import { TypingGame } from "@/components/certification/CertificationTest";
 // import dynamic from "next/dynamic";
 
 // const Leaderboard = dynamic(

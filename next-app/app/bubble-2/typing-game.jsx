@@ -1,6 +1,5 @@
 "use client"
 import React, { useState, useEffect, useCallback } from "react"
-import { generateWord } from "./utils/wordGenerator"
 
 const GAME_DURATION = 30 // seconds
 const BUBBLE_SPAWN_INTERVAL = 2000 // milliseconds

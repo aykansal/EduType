@@ -8,6 +8,7 @@ import { BiddingSystem } from "./bidding-system";
 import { Button } from "../ui/button";
 import { Shield, Play, Timer } from "lucide-react";
 import dynamic from "next/dynamic";
+import { TypingGame } from "../certification/CertificationTest";
 
 const LiveChat = dynamic(() => import("../LiveChat"), {
   ssr: false,
@@ -77,8 +78,11 @@ export const LiveSpace = () => {
           <Timer className="animate-pulse" />
           {timeLeft > 0 ? `${timeLeft}s` : "GAME OVER"}
         </div>
-        <div className="gap-6 grid grid-cols-1 md:grid-cols-2">
-          {competitors.map((competitor) => (
+        {/* <div className="gap-6 grid grid-cols-1 md:grid-cols-2"> */}
+        <div>
+          <TypingGame />
+
+          {/* {competitors.map((competitor) => (
             <TypingInterface
               key={competitor.id}
               competitor={competitor}
@@ -86,7 +90,7 @@ export const LiveSpace = () => {
               isGameOver={isGameOver}
               isGameStart={isGameStart}
             />
-          ))}
+          ))} */}
         </div>
       </>
     ),
@@ -132,7 +136,6 @@ export const LiveSpace = () => {
               </div>
             )}
           </div>
-
           {isLobby && isHost ? LobbyInterface : GameInterface}
         </motion.div>
         <Scoreboard competitors={competitors} />

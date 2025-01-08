@@ -1,15 +1,15 @@
 "use client";
 
-import { Keyboard } from "./keyboard";
-import { useState, useEffect, useCallback } from "react";
+import axios from "axios";
 import dynamic from "next/dynamic";
+import { Keyboard } from "./keyboard";
 import { useTyping } from "@/hooks/use-typing";
 import { Button } from "@/components/ui/button";
-import axios from "axios";
 import { useActiveAccount } from "thirdweb/react";
+import { useState, useEffect, useCallback } from "react";
 
-const GameOverDialog = dynamic(() => import("../GameOverDialog"), {
-  loading: () => <div>Loading...</div>,
+const GameOverDialog = dynamic(() => import("@/components/GameOverDialog"), {
+  // loading: () => <div>Loading...</div>,
   ssr: false,
 });
 
@@ -22,37 +22,30 @@ const Fade = ({ children, show }) => (
     {children}
   </div>
 );
+const SAMPLE_TEXT =
+  "The quick ";
 
 export function TypingTutor() {
+  const account = useActiveAccount();
   const [isStarted, setIsStarted] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
   const [certificateGenerated, setCertificateGenerated] = useState(false);
   const {
+    wpm,
     text,
+    accuracy,
     typedText,
     currentKey,
-    accuracy,
-    wpm,
-    handleKeyPress,
     resetTyping,
-  } = useTyping();
-  const account = useActiveAccount();
-  useEffect(() => {
-    if (isStarted) {
-      const handleKeyDown = (e) => {
-        handleKeyPress(e.key);
-      };
-      window.addEventListener("keydown", handleKeyDown);
-      return () => window.removeEventListener("keydown", handleKeyDown);
-    }
-  }, [isStarted, handleKeyPress]);
+    handleKeyPress,
+  } = useTyping(SAMPLE_TEXT); // Untimed mode
 
   const handleGenerateCertificate = useCallback(async () => {
     // if (certificateGenerated) return ""; // Skip if already generated
 
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/generate-certificate`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/certificate/generate`,
         {
           params: {
             walletAddress: account?.address,
@@ -62,14 +55,25 @@ export function TypingTutor() {
         }
       );
       setCertificateGenerated(true);
-      // const imagesArr = response?.data?.images;
-      // return imagesArr ? imagesArr[0] : "";
       return response?.data?.certificate?.url;
     } catch (error) {
       console.error("Error generating certificate:", error?.response?.data);
       return "";
     }
   }, [accuracy, wpm, certificateGenerated]);
+
+  const handleStart = () => {
+    setIsStarted(true);
+    setIsGameOver(false);
+    setCertificateGenerated(false);
+    resetTyping();
+  };
+
+  const preventSpaceScroll = (e) => {
+    if (e.code === "Space" || e.key === " ") {
+      e.preventDefault();
+    }
+  };
 
   useEffect(() => {
     if (
@@ -82,15 +86,24 @@ export function TypingTutor() {
     }
   }, [typedText, text, isGameOver]);
 
-  const handleStart = () => {
-    setIsStarted(true);
-    setIsGameOver(false);
-    setCertificateGenerated(false);
-    resetTyping();
-  };
+  useEffect(() => {
+    if (isStarted) {
+      const handleKeyDown = (e) => {
+        e.preventDefault();
+        if (e.code === "Space" || e.key === " ") e.preventDefault();
+        handleKeyPress(e.key);
+      };
+      window.addEventListener("keydown", handleKeyDown);
+      document.addEventListener("keydown", preventSpaceScroll);
+      return () => {
+        window.removeEventListener("keydown", handleKeyDown);
+        document.removeEventListener("keydown", preventSpaceScroll);
+      };
+    }
+  }, [isStarted, handleKeyPress]);
 
   return (
-    <div className="mx-auto max-w-4xl">
+    <div className="mx-auto max-w-4xl overflow-hidden">
       <div className="bg-white shadow-lg mb-8 p-8 rounded-2xl">
         {!isStarted ? (
           <Fade show={!isStarted}>
@@ -134,20 +147,19 @@ export function TypingTutor() {
                 })}
               </div>
               <div className="flex justify-end">
-                <Button
+                {/* <Button
                   onClick={handleStart}
                   variant="outline"
                   className="text-gray-600"
                 >
                   Reset
-                </Button>
+                </Button> */}
               </div>
             </div>
           </Fade>
         )}
       </div>
       <Keyboard activeKey={currentKey} />
-
       {isGameOver && (
         <GameOverDialog
           isOpen={isGameOver}
@@ -163,27 +175,3 @@ export function TypingTutor() {
     </div>
   );
 }
-
-// const handleGenerateCertificate = async () => {
-//   try {
-//     const response = await axios.get(
-//       `http://localhost:3001/user/generate-pdf-certificate/0xakjdfsjfsk1/certificate`
-//       // {
-//       //   responseType: "blob",
-//       // }
-//     );
-//     // const pdfBlob = new Blob([response.data], { type: "application/pdf" });
-//     // const pdfUrl = URL.createObjectURL(pdfBlob);
-//     // const link = document.createElement("a");
-//     // link.href = pdfUrl;
-//     // link.setAttribute("download", `${walletAddress}.pdf`);
-//     // document.body.appendChild(link);
-//     // link.click();
-//     // link.remove();
-//     // console.log(pdfUrl);
-//     const imagesArr = response?.data?.images;
-//     return imagesArr[0];
-//   } catch (error) {
-//     console.error("Error generating certificate:", error);
-//   }
-// };

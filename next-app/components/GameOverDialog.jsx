@@ -29,6 +29,11 @@ const GameOverDialog = ({
     setError(null);
     try {
       const imageResponse = await onGenerateCertificate();
+      console.log(
+        "Certificate generation response:",
+        imageResponse,
+        typeof imageResponse
+      );
       if (imageResponse) {
         setImageUrl(imageResponse);
       } else {

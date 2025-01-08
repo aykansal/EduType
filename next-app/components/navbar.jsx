@@ -5,65 +5,46 @@ import Wallet from "./ThirdWebWallet";
 import { motion } from "framer-motion";
 import { useActiveAccount } from "thirdweb/react";
 
+const navLinks = [
+  { href: "/typing-tutor", label: "Typing Tutor" },
+  { href: "/certification", label: "Certification" },
+  { href: "/arena", label: "Arena" },
+  { href: "/learn", label: "Learn" },
+];
+
 export function NavBar() {
   const account = useActiveAccount();
+
   return (
     <motion.nav
-      className="w-full py-4 px-6"
+      className="px-6 py-4 w-full"
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
+      <div className="flex justify-between items-center mx-auto max-w-7xl">
         <Link
           href="/"
-          className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 text-transparent bg-clip-text"
+          className="bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 font-bold text-2xl text-transparent"
         >
           EduType
         </Link>
-        {account?.address ? (
-          <>
-            <div className="hidden md:flex items-center space-x-8">
-              <Link
-                href="/typing-tutor"
-                className="text-gray-600 hover:text-purple-600 transition-colors"
-              >
-                Typing Tutor
-              </Link>
-              <Link
-                href="/typing-test"
-                className="text-gray-600 hover:text-purple-600 transition-colors"
-              >
-                Typing Test
-              </Link>
-              {/* <Link
-            href="/about"
-            className="text-gray-600 hover:text-purple-600 transition-colors"
-            >
-            About
-            </Link> */}
-              <Link
-                href="/arena"
-                className="text-gray-600 hover:text-purple-600 transition-colors"
-              >
-                Arena
-              </Link>
-              <Link
-                href="/learn"
-                className="text-gray-600 hover:text-purple-600 transition-colors"
-              >
-                Learn
-              </Link>
+        <div className="flex items-center gap-4">
+          {account?.address && (
+            <div className="md:flex items-center space-x-8 hidden">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-gray-600 hover:text-purple-600 transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ))}
             </div>
-            <div className="flex items-center gap-4">
-              <Wallet />
-            </div>
-          </>
-        ) : (
-          <div className="flex items-center gap-4">
-            <Wallet />
-          </div>
-        )}
+          )}
+          <Wallet />
+        </div>
       </div>
     </motion.nav>
   );
