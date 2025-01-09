@@ -1,7 +1,14 @@
-import "./globals.css";
+import './globals.css';
+// import Script from 'next/script';
+// import dynamic from 'next/dynamic';
 import { ThirdwebClientProvider } from "@/components/Thirdwebclientprovider";
-import AuthProvider from "@/components/AuthProvider";
 import { Toaster } from "@/components/ui/toaster";
+import AuthProvider from '@/components/AuthProvider';
+
+// Dynamically import AuthProvider without SSR
+// const AuthProvider = dynamic(() => import('@/components/AuthProvider'), {
+//   ssr: false, // Disable SSR for this component, so it runs only on the client
+// });
 
 export const metadata = {
   title: "EduType",
@@ -10,17 +17,15 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning={true}>
+    <html lang="en">
       <head>
-        <script async src="https://cdn.splitbee.io/sb.js" />
+        {/* <Script async src="https://cdn.splitbee.io/sb.js" strategy="afterInteractive" /> */}
       </head>
       <body>
-        {/* <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme"> */}
         <ThirdwebClientProvider>
           <AuthProvider>{children}</AuthProvider>
           <Toaster />
         </ThirdwebClientProvider>
-        {/* </ThemeProvider> */}
       </body>
     </html>
   );
