@@ -23,7 +23,6 @@ router.post('/save-score', async (req, res) => {
                 accuracy,
             },
         });
-
         return res.status(201).json({ message: 'Score saved successfully!', savedScore });
     } catch (error) {
         console.error('Error saving score:', error);
@@ -41,11 +40,11 @@ router.get('/', async (req, res) => {
 
     try {
         const leaderboard = await prismaClient.score.findMany({
-            where: {
-                user: {
-                    walletAddress, // Filter by walletAddress
-                },
-            },
+            // where: {
+            //     user: {
+            //         walletAddress, // Filter by walletAddress
+            //     },
+            // },
             include: {
                 user: true, // Join user data
             },
