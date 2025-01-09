@@ -2,13 +2,12 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { motion } from "framer-motion";
-import { TypingInterface } from "./typing-interface";
 import { Scoreboard } from "./scoreboard";
 import { BiddingSystem } from "./bidding-system";
 import { Button } from "../ui/button";
 import { Shield, Play, Timer } from "lucide-react";
 import dynamic from "next/dynamic";
-import { TypingGame } from "../certification/CertificationTest";
+import CertificationTest from "../certification/CertificationTest";
 
 const LiveChat = dynamic(() => import("../LiveChat"), {
   ssr: false,
@@ -80,7 +79,7 @@ export const LiveSpace = () => {
         </div>
         {/* <div className="gap-6 grid grid-cols-1 md:grid-cols-2"> */}
         <div>
-          <TypingGame />
+          <CertificationTest />
 
           {/* {competitors.map((competitor) => (
             <TypingInterface

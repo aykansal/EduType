@@ -1,5 +1,5 @@
 import { NavBar } from "@/components/navbar";
-import { TypingGame } from "@/components/certification/CertificationTest";
+import CertificationTest  from "@/components/certification/CertificationTest";
 // import dynamic from "next/dynamic";
 
 // const Leaderboard = dynamic(
@@ -14,7 +14,7 @@ export default function TypingTutorPage() {
     <div className="bg-gradient-to-b from-white to-blue-50 min-h-screen">
       <NavBar />
       <main className="mx-auto px-4 py-8 container">
-        <TypingGame isArena={true} />
+        <CertificationTest isArena={true} />
       </main>
     </div>
   );
