@@ -5,7 +5,7 @@ import { DecorativeWave } from "@/components/decorative-wave";
 
 const TypingTutor = dynamic(
   () =>
-    import("@/components/typing-tutor/typing-tutor").then(
+    import("@/components/typing-tutor/typing-tutor-new").then(
       (mod) => mod.TypingTutor
     ),
   {
@@ -20,7 +20,6 @@ export default function TypingTutorPage() {
   return (
     <div
       className="bg-gradient-to-b from-white to-blue-50 min-h-screen"
-      suppressHydrationWarning={true}
     >
       <NavBar />
       <DecorativeWave />
