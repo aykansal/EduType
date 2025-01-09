@@ -18,7 +18,7 @@ export default function Certification() {
       <main className="mx-auto px-4 py-8 container">
         <div className="gap-8 grid md:grid-cols-3">
           <div className="md:col-span-2">
-            <CertificationTest />
+            <CertificationTest submitName={'Begin Certification Test'} />
           </div>
           <div>
             <Leaderboard />

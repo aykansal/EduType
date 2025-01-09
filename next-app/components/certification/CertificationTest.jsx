@@ -17,7 +17,7 @@ const GameOverDialog = dynamic(() => import("../GameOverDialog"), {
 const SAMPLE_TEXT =
   "The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs. How vexingly quick daft zebras jump!";
 
-export default function CertificationTest() {
+export default function CertificationTest(params) {
   const account = useActiveAccount();
 
   const {
@@ -98,8 +98,10 @@ export default function CertificationTest() {
   }, [accuracy, wpm, certificateGenerated]);
 
   return (
-    <div className="bg-white shadow-lg p-8 rounded-2xl text-gray-900">
-      <h2 className="mb-4 font-bold text-2xl">Typing Game</h2>
+    <div className={`${params.isArena?'bg-transparent text-white':'bg-white text-gray-900'} shadow-lg p-8 rounded-2xl `}>
+      {!params.isArena && (
+        <h2 className="mb-4 font-bold text-2xl">Typing Game</h2>
+      )}
       {!isGameStarted ? (
         <div className="py-12 text-center">
           <Button
@@ -107,7 +109,7 @@ export default function CertificationTest() {
             className="bg-green-400 hover:bg-green-500 px-8 py-4 font-semibold text-lg text-white"
             onClick={startGame}
           >
-            Begin Certification Test
+            {params.submitName}
           </Button>
         </div>
       ) : (

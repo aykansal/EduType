@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import dynamic from "next/dynamic";
+import { Button } from "../ui/button";
 import { motion } from "framer-motion";
 import { Scoreboard } from "./scoreboard";
 import { BiddingSystem } from "./bidding-system";
-import { Button } from "../ui/button";
 import { Shield, Play, Timer } from "lucide-react";
-import dynamic from "next/dynamic";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import CertificationTest from "../certification/CertificationTest";
 
 const LiveChat = dynamic(() => import("../LiveChat"), {
@@ -73,13 +73,13 @@ export const LiveSpace = () => {
   const GameInterface = useMemo(
     () => (
       <>
-        <div className="flex justify-center items-center gap-2 mb-4 font-bold font-digital text-4xl text-red-500">
+        {/* <div className="flex justify-center items-center gap-2 mb-4 font-bold font-digital text-4xl text-red-500">
           <Timer className="animate-pulse" />
           {timeLeft > 0 ? `${timeLeft}s` : "GAME OVER"}
-        </div>
+        </div> */}
         {/* <div className="gap-6 grid grid-cols-1 md:grid-cols-2"> */}
         <div>
-          <CertificationTest />
+          <CertificationTest submitName={'Play Game'} />
 
           {/* {competitors.map((competitor) => (
             <TypingInterface

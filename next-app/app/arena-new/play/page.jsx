@@ -14,7 +14,7 @@ export default function TypingTutorPage() {
     <div className="bg-gradient-to-b from-white to-blue-50 min-h-screen">
       <NavBar />
       <main className="mx-auto px-4 py-8 container">
-        <CertificationTest isArena={true} />
+        <CertificationTest submitName={"Play Now"} isArena={true} />
       </main>
     </div>
   );
