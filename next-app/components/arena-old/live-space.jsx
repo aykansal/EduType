@@ -79,7 +79,7 @@ export const LiveSpace = () => {
         </div> */}
         {/* <div className="gap-6 grid grid-cols-1 md:grid-cols-2"> */}
         <div>
-          <CertificationTest submitName={'Play Game'} />
+          <CertificationTest isArena={true} submitName={'Play Game'} />
 
           {/* {competitors.map((competitor) => (
             <TypingInterface

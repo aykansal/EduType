@@ -1,7 +1,7 @@
-import { Suspense } from "react"
-import { NavBar } from "@/components/navbar"
-import { LiveSpace } from "@/components/arena-old/live-space"
-import { Skeleton } from "@/components/ui/skeleton"
+import { Suspense } from "react";
+import { NavBar } from "@/components/navbar";
+import { LiveSpace } from "@/components/arena-old/live-space";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const LoadingSkeleton = () => {
   return (
@@ -11,15 +11,12 @@ const LoadingSkeleton = () => {
       </div>
       <div className="gap-4 grid">
         {[1, 2, 3].map((i) => (
-          <Skeleton
-            key={i}
-            className="bg-gray-800 w-full h-32"
-          />
+          <Skeleton key={i} className="bg-gray-800 w-full h-32" />
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default function LiveCompetitionPage() {
   return (
@@ -34,6 +31,5 @@ export default function LiveCompetitionPage() {
         </Suspense>
       </main>
     </div>
-  )
+  );
 }
-
