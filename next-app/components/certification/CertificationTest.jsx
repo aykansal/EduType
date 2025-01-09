@@ -14,8 +14,8 @@ const GameOverDialog = dynamic(() => import("../GameOverDialog"), {
   ssr: false,
 });
 
-const SAMPLE_TEXT = "The quick brown";
-// fox jumps over the lazy dog. Pack my box with five dozen liquor jugs. How vexingly quick daft zebras jump!";
+const SAMPLE_TEXT =
+  "The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs. How vexingly quick daft zebras jump!";
 
 export default function CertificationTest(params) {
   const account = useActiveAccount();
