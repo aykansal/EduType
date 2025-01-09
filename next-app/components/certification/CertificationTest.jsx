@@ -47,19 +47,21 @@ export default function CertificationTest() {
     }
   }, [isGameStarted, handleKeyPress]);
 
-  const saveScoresDB = async ({ wpm, accuracy }) => {
+  const saveScoresDB = async () => {
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/leaderboard/save-score`,
         {
-          userId: account?.address,
-          wpm,
-          accuracy,
+          params: {
+            wpm,
+            accuracy,
+            walletAddress: account?.address,
+          },
         }
       );
       console.log("Score saved:", response?.data);
     } catch (err) {
-      console.error("Error saving score:", err?.response?.data);
+      console.log("Error saving score:", err?.response?.data);
     } finally {
       console.log("SaveScoreDB Executed!");
     }
@@ -69,7 +71,7 @@ export default function CertificationTest() {
   useEffect(() => {
     if (isGameStarted && (timeLeft <= 0 || typedText.length === text.length)) {
       setIsGameOver(true);
-      saveScoresDB(wpm, accuracy);
+      saveScoresDB();
     }
   }, [isGameStarted, timeLeft, typedText.length, text.length]);
 

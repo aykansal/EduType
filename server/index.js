@@ -5,6 +5,7 @@ import { createServer } from 'http';
 import { configDotenv } from 'dotenv';
 import leaderboardRoutes from './routes/leaderboard.js';
 import certificateRoutes from './routes/certificate.js';
+import userRoutes from './routes/users.js';
 
 configDotenv();
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use(express.static('public'));
 app.use('/api/leaderboard', leaderboardRoutes);
 app.use('/api/certificate', certificateRoutes);
+app.use('/api/user', userRoutes);
 
 // Initial data
 let matches = [

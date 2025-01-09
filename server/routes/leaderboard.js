@@ -7,8 +7,8 @@ const prismaClient = new PrismaClient();
 
 // Route to save user scores
 router.post('/save-score', async (req, res) => {
-    const { userId, wpm, accuracy } = req.body;
-    if (!userId || !wpm || !accuracy) {
+    const { walletAddress, wpm, accuracy } = req.params;
+    if (!walletAddress || !wpm || !accuracy) {
         return res.status(400).json({ error: 'Missing required fields.' });
     }
     try {
@@ -16,7 +16,7 @@ router.post('/save-score', async (req, res) => {
             data: {
                 user: {
                     connect: {
-                        walletAddress: userId,
+                        walletAddress,
                     },
                 },
                 wpm,

@@ -38,7 +38,7 @@ export default function Leaderboard() {
             params: { walletAddress: account?.address },
           }),
         ]);
-        console.log(scoresRes.data);
+
         setScores(scoresRes.data);
         setCertificates(certificatesRes.data);
       } catch (error) {
