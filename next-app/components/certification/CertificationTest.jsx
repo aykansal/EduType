@@ -14,8 +14,8 @@ const GameOverDialog = dynamic(() => import("../GameOverDialog"), {
   ssr: false,
 });
 
-const SAMPLE_TEXT =
-  "The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs. How vexingly quick daft zebras jump!";
+const SAMPLE_TEXT = "The quick brown";
+// fox jumps over the lazy dog. Pack my box with five dozen liquor jugs. How vexingly quick daft zebras jump!";
 
 export default function CertificationTest(params) {
   const account = useActiveAccount();
@@ -52,11 +52,11 @@ export default function CertificationTest(params) {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/leaderboard/save-score`,
         {
-          params: {
-            wpm,
-            accuracy,
-            walletAddress: account?.address,
-          },
+          // params: {
+          wpm,
+          accuracy,
+          walletAddress: account?.address,
+          // },
         }
       );
       console.log("Score saved:", response?.data);
@@ -98,7 +98,11 @@ export default function CertificationTest(params) {
   }, [accuracy, wpm, certificateGenerated]);
 
   return (
-    <div className={`${params.isArena?'bg-transparent text-white':'bg-white text-gray-900'} shadow-lg p-8 rounded-2xl `}>
+    <div
+      className={`${
+        params.isArena ? "bg-transparent text-white" : "bg-white text-gray-900"
+      } shadow-lg p-8 rounded-2xl `}
+    >
       {!params.isArena && (
         <h2 className="mb-4 font-bold text-2xl">Typing Game</h2>
       )}

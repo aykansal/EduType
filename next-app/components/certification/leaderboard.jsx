@@ -31,9 +31,7 @@ export default function Leaderboard() {
       try {
         setLoading(true);
         const [scoresRes, certificatesRes] = await Promise.all([
-          axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/leaderboard`,{
-            params: { walletAddress: account?.address },
-          }),
+          axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/leaderboard`),
           axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/certificate`, {
             params: { walletAddress: account?.address },
           }),
