@@ -1,5 +1,6 @@
 import { ConnectButton } from "thirdweb/react";
 import { defineChain, createThirdwebClient } from "thirdweb";
+import { createWallet } from "thirdweb/wallets";
 
 const chain = defineChain(656476);
 const client = createThirdwebClient({
@@ -15,6 +16,7 @@ export default function Wallet() {
       signInButton={{
         label: "Sign in now!",
       }}
+      wallets={[createWallet("io.metamask")]}
     />
   );
 }

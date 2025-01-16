@@ -1,5 +1,5 @@
 "use client"
-import { getSocket } from "@/config/socket";
+import { getSocket } from "@/lib/socket";
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "../ui/button";
 

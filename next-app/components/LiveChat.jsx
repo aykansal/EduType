@@ -1,12 +1,16 @@
+"use client";
 import { useState, useEffect, useRef } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
+
 import { useToast } from "@/hooks/use-toast";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+
+import { getSocket } from "@/lib/socket";
+
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { io } from "socket.io-client";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function LiveChat() {
   const [socket, setSocket] = useState(null);
@@ -17,9 +21,10 @@ export default function LiveChat() {
   const [userCount, setUserCount] = useState(0);
   const messagesEndRef = useRef(null);
   const { toast } = useToast();
+  const [page, setPage] = useState(1);
+  const MESSAGES_PER_PAGE = 50;
 
   useEffect(() => {
-    // const socketIo = io();
     const socketIo = getSocket();
     setSocket(socketIo);
 
@@ -33,10 +38,10 @@ export default function LiveChat() {
 
     socketIo.on("userJoined", ({ username, totalUsers }) => {
       setUserCount(totalUsers);
-      // toast({
-      //   title: "New user joined",
-      //   description: `${username} joined the chat`,
-      // });
+      toast({
+        title: "New user joined",
+        description: `${username} joined the chat`,
+      });
     });
 
     socketIo.on("userLeft", ({ username, totalUsers }) => {
@@ -54,6 +59,15 @@ export default function LiveChat() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+  
+  useEffect(() => {
+    return () => {
+      socket?.off("message");
+      socket?.off("chatHistory");
+      socket?.off("userJoined");
+      socket?.off("userLeft");
+    };
+  }, [socket]);
 
   const handleJoin = (e) => {
     e.preventDefault();
